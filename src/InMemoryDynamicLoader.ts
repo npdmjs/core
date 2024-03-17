@@ -4,12 +4,8 @@ import { DynamicLoader } from './DynamicLoader';
 import { PackageContent } from '.';
 
 export class InMemoryDynamicLoader extends DynamicLoader {
-  private readonly storage: Map<string, Store> = new Map();
-  private readonly loaders: Map<string, Promise<PackageContent>> = new Map();
-
-  constructor(registry: string) {
-    super(registry);
-  }
+  private readonly storage = new Map<string, Store>();
+  private readonly loaders = new Map<string, Promise<PackageContent>>();
 
   public async getAsset(packageName: string, version: string, assetPath: string): Promise<Buffer | null> {
     const key = `${packageName}@${version}`;
@@ -25,13 +21,13 @@ export class InMemoryDynamicLoader extends DynamicLoader {
       const fsEditor = createMemFsEditor(storage);
       const loader = this.fetchPackageContent(packageName, version);
       this.loaders.set(key, loader);
-  
+
       const packageContent = await loader;
 
       packageContent.forEach(
-        ({ path, content }) => fsEditor.write(path, content)
+        ({ path, content }) => fsEditor.write(path, content),
       );
-    
+
       fsEditor.commit();
       this.storage.set(key, storage);
       this.loaders.delete(key);

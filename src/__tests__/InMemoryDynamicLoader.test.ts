@@ -11,7 +11,7 @@ jest.mock('mem-fs-editor', () => ({
 jest.mock('../DynamicLoader', () => ({
   DynamicLoader: class {
     public fetchPackageContent = jest.fn();
-  }
+  },
 }));
 
 
@@ -21,10 +21,10 @@ describe('InMemoryDynamicLoader', () => {
   const getStoredValueMock = jest.fn();
   const writeMock = jest.fn();
   const commitMock = jest.fn();
-  
+
   let loader: InMemoryDynamicLoader;
   let fetchSpy: jest.SpyInstance;
-  
+
 
   beforeEach(() => {
     createMemFsMock.mockReturnValue({
@@ -44,14 +44,13 @@ describe('InMemoryDynamicLoader', () => {
   });
 
 
-
   it('loads package tarball and returns list of files', async () => {
     const fileContentStub = Buffer.from('console.log("Hello World!")');
     getStoredValueMock.mockReturnValue({
-      contents: fileContentStub
+      contents: fileContentStub,
     });
     fetchSpy.mockResolvedValue([
-      { path: 'index.js', content: fileContentStub }
+      { path: 'index.js', content: fileContentStub },
     ]);
 
     const result = await loader.getAsset('ama', '1.0.0', 'index.js');
@@ -66,10 +65,10 @@ describe('InMemoryDynamicLoader', () => {
   it ('returns value if it is already in memory', async () => {
     const fileContentStub = Buffer.from('console.log("test#2")');
     fetchSpy.mockResolvedValue([
-      { path: 'index.js', content: fileContentStub }
+      { path: 'index.js', content: fileContentStub },
     ]);
     getStoredValueMock.mockReturnValue({
-      contents: fileContentStub
+      contents: fileContentStub,
     });
 
     await loader.getAsset('ama', '1.0.0', 'index.js');
@@ -77,10 +76,10 @@ describe('InMemoryDynamicLoader', () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1); // load once
     expect(getStoredValueMock).toHaveBeenCalledTimes(2); // return twice
-    expect(result).toEqual(fileContentStub);  // same result
+    expect(result).toEqual(fileContentStub); // same result
   });
 
-  
+
   it ('awaits for a loader to finish if it is already in progress', async () => {
     const indexJsStub = Buffer.from('console.log("index.js")');
     const mainJsStub = Buffer.from('console.log("main.js")');
@@ -92,7 +91,7 @@ describe('InMemoryDynamicLoader', () => {
       return { contents: path === 'index.js' ? indexJsStub : mainJsStub };
     });
 
-    const firstPromise =  loader.getAsset('ama', '1.0.0', 'index.js');
+    const firstPromise = loader.getAsset('ama', '1.0.0', 'index.js');
     const secondPromise = loader.getAsset('ama', '1.0.0', 'main.js');
 
     const results = await Promise.all([firstPromise, secondPromise]);
@@ -102,5 +101,4 @@ describe('InMemoryDynamicLoader', () => {
     expect(results.includes(indexJsStub)).toBeTruthy();
     expect(results.includes(mainJsStub)).toBeTruthy();
   });
-
 });

@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo "Running tests..."
-bun test
+bun run test
 
 echo "Running eslint..."
 bun lint

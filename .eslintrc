@@ -19,8 +19,6 @@
     ]
   },
   "rules": {
-    // They are just different and for different purposes, mkay?
-    // "@typescript-eslint/consistent-type-definitions": "off",
     "@stylistic/semi": "error",
     "@stylistic/max-len": ["error", { "code": 120 }],
     "@stylistic/no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0, "maxBOF": 0 }],
@@ -38,6 +36,17 @@
     "@stylistic/no-whitespace-before-property": "error",
     "@stylistic/padded-blocks": ["error", { "blocks": "never" }],
     "@stylistic/quotes": ["error", "single"],
-    "@stylistic/quote-props": ["error", "consistent-as-needed"]
-  }
+    "@stylistic/quote-props": ["error", "consistent-as-needed"],
+    // interfaces for classes, types for objects:
+    "@typescript-eslint/consistent-type-definitions": "off"
+  },
+
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

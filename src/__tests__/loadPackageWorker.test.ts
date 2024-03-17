@@ -24,7 +24,7 @@ describe('loadPackageWorker', () => {
 
     fetchMock.mockResolvedValueOnce(packageDetailsResponse);
     fetchMock.mockResolvedValueOnce(new Response(tarballArrayBufferStub));
-  
+
     await import('../loadPackageWorker');
 
     let packageContent: PackageContent = [];
@@ -44,5 +44,5 @@ describe('loadPackageWorker', () => {
     expect(Array.isArray(packageContent)).toBe(true);
     expect(packageContent.length).toBe(3);
     expect(packageContent.some(({ path }) => path === 'package.json')).toBe(true);
-  })
+  });
 });

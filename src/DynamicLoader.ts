@@ -2,7 +2,7 @@ import { Worker } from 'node:worker_threads';
 import type { PackageContent } from './PackageContent';
 
 export abstract class DynamicLoader {
-  protected constructor(
+  public constructor(
     protected readonly registry: string,
   ) {}
 

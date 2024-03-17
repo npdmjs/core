@@ -10,11 +10,12 @@ const gunzip = promisify(zlib.gunzip);
 
 const packageUrl = workerData as string;
 
+type PackageDetails = { dist: { tarball: string } };
 
 (async () => {
   const unzipped = await fetch(packageUrl)
     .then(res => res.json())
-    .then((details: any) => details.dist.tarball)
+    .then((details: PackageDetails) => details.dist.tarball)
     .then(fetch)
     .then(data => data.arrayBuffer())
     .then(gunzip);

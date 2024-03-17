@@ -1,1 +1,1 @@
-export type PackageContent = Array<{ path: string, content: Buffer }>;
+export type PackageContent = { path: string, content: Buffer }[];
