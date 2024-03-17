@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "module": "CommonJS",
+    "target": "ES2015",
+    "outDir": "dist/cjs",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/**/__mocks__/**/*", "src/**/__tests__/**/*"]
+}
