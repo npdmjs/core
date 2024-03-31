@@ -1,9 +1,20 @@
 {
   "name": "@npmdm/core",
-  "module": "index.ts",
+  "version": "0.0.1",
   "type": "module",
   "author": "Aleksandr Kondratskii",
   "license": "MIT",
+
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/npdmjs/core.git"
@@ -12,16 +23,17 @@
     "url": "https://github.com/npdmjs/core/issues"
   },
   "homepage": "https://github.com/npdmjs/core#readme",
+
   "scripts": {
     "test": "vitest run",
     "lint": "bun run lint:tsc && eslint src",
     "lint:tsc": "tsc --project tsconfig.test.json --noEmit && tsc --project tsconfig.lib.esm.json --noEmit",
-    "build": "rimraf ./dist && bun run build:tsc && bun ./dist.ts",
-    "build:tsc": "bun run build:tsc:esm && bun run build:tsc:cjs",
-    "build:tsc:esm": "tsc --project tsconfig.lib.esm.json",
-    "build:tsc:cjs": "tsc --project tsconfig.lib.cjs.json",
+    "build": "rimraf ./dist && bun run build:esm && bun run build:cjs",
+    "build:esm": "tsc --project tsconfig.lib.esm.json",
+    "build:cjs": "tsc --project tsconfig.lib.cjs.json",
     "prepare": "husky"
   },
+
   "devDependencies": {
     "@commitlint/cli": "19.2.1",
     "@commitlint/config-conventional": "19.1.0",
@@ -31,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "7.4.0",
     "@typescript-eslint/parser": "7.4.0",
     "@vitest/coverage-v8": "^1.4.0",
+    "@vitest/ui": "1.4.0",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.57.0",
@@ -40,9 +53,15 @@
     "typescript": "5.4.3",
     "vitest": "1.4.0"
   },
+
   "dependencies": {
     "mem-fs": "^4.1.0",
     "mem-fs-editor": "^11.0.0",
     "tar-stream": "^3.1.7"
-  }
+  },
+
+  "files": [
+    "dist/cjs",
+    "dist/mjs"   
+  ]
 }

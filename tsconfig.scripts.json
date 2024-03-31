@@ -5,7 +5,6 @@
     "rootDir": "."
   },
   "include": [
-    "dist.ts",
     "vitest.config.ts"
   ]
 }
