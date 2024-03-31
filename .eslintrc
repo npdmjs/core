@@ -2,12 +2,14 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/strict",
-    "plugin:@typescript-eslint/stylistic"
+    "plugin:@typescript-eslint/stylistic",
+    "plugin:require-extensions/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
-    "@stylistic"
+    "@stylistic",
+    "require-extensions"
   ],
   "root": true,
   "parserOptions": {

@@ -1,29 +1,30 @@
-import { InMemoryDynamicLoader } from '../InMemoryDynamicLoader';
+import { InMemoryDynamicLoader } from '../InMemoryDynamicLoader.js';
+import { MockInstance } from 'vitest';
 import { create as createMemFs } from 'mem-fs';
 import { create as createMemFsEditor } from 'mem-fs-editor';
 
-jest.mock('mem-fs', () => ({
-  create: jest.fn(),
+vi.mock('mem-fs', () => ({
+  create: vi.fn(),
 }));
-jest.mock('mem-fs-editor', () => ({
-  create: jest.fn(),
+vi.mock('mem-fs-editor', () => ({
+  create: vi.fn(),
 }));
-jest.mock('../DynamicLoader', () => ({
+vi.mock('../DynamicLoader', () => ({
   DynamicLoader: class {
-    public fetchPackageContent = jest.fn();
+    public fetchPackageContent = vi.fn();
   },
 }));
 
 
 describe('InMemoryDynamicLoader', () => {
-  const createMemFsMock = jest.mocked(createMemFs);
-  const createMemFsEditorMock = jest.mocked(createMemFsEditor);
-  const getStoredValueMock = jest.fn();
-  const writeMock = jest.fn();
-  const commitMock = jest.fn();
+  const createMemFsMock = vi.mocked(createMemFs);
+  const createMemFsEditorMock = vi.mocked(createMemFsEditor);
+  const getStoredValueMock = vi.fn();
+  const writeMock = vi.fn();
+  const commitMock = vi.fn();
 
   let loader: InMemoryDynamicLoader;
-  let fetchSpy: jest.SpyInstance;
+  let fetchSpy: MockInstance;
 
 
   beforeEach(() => {
@@ -35,12 +36,12 @@ describe('InMemoryDynamicLoader', () => {
       commit: commitMock,
     } as any);
     loader = new InMemoryDynamicLoader('REGISTRY_TEST');
-    fetchSpy = jest.spyOn(loader as any, 'fetchPackageContent');
+    fetchSpy = vi.spyOn(loader as any, 'fetchPackageContent');
   });
 
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
 

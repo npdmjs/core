@@ -1,5 +1,5 @@
 import { Worker } from 'node:worker_threads';
-import type { PackageContent } from './PackageContent';
+import type { PackageContent } from './PackageContent.js';
 
 export abstract class DynamicLoader {
   public constructor(

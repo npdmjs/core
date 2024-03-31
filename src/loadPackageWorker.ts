@@ -3,7 +3,7 @@ import tar from 'tar-stream';
 
 import zlib from 'zlib';
 import { promisify } from 'util';
-import type { PackageContent } from './PackageContent';
+import type { PackageContent } from './PackageContent.js';
 
 const gunzip = promisify(zlib.gunzip);
 

@@ -1,18 +1,18 @@
 import { parentPort } from 'node:worker_threads';
-import type { PackageContent } from '../PackageContent';
-import { tarballArrayBufferStub } from './packageStub';
+import type { PackageContent } from '../PackageContent.js';
+import { tarballArrayBufferStub } from './packageStub.js';
 
-jest.mock('node:worker_threads', () => ({
+vi.mock('node:worker_threads', () => ({
   parentPort: {
-    postMessage: jest.fn(),
+    postMessage: vi.fn(),
   },
   isMainThread: false,
   workerData: 'https://registry.npmjs.org/ama/1.0.0',
 }));
 
-global.fetch = jest.fn();
-const postMessageMock = jest.mocked(parentPort?.postMessage);
-const fetchMock = jest.mocked(global.fetch);
+global.fetch = vi.fn();
+const postMessageMock = vi.mocked(parentPort?.postMessage);
+const fetchMock = vi.mocked(global.fetch);
 
 describe('loadPackageWorker', () => {
   it('loads package tarball and returns list of files', async () => {

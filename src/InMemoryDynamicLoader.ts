@@ -1,7 +1,7 @@
 import { Store, create as createMemFs } from 'mem-fs';
 import { create as createMemFsEditor } from 'mem-fs-editor';
-import { DynamicLoader } from './DynamicLoader';
-import { PackageContent } from '.';
+import { DynamicLoader } from './DynamicLoader.js';
+import { PackageContent } from './PackageContent.js';
 
 export class InMemoryDynamicLoader extends DynamicLoader {
   private readonly storage = new Map<string, Store>();
