@@ -1,9 +1,9 @@
 import { Store, create as createMemFs } from 'mem-fs';
 import { create as createMemFsEditor } from 'mem-fs-editor';
-import { DynamicLoader } from './DynamicLoader.js';
+import { AbstractDynamicLoader } from './AbstractDynamicLoader.js';
 import { PackageContent } from './PackageContent.js';
 
-export class InMemoryDynamicLoader extends DynamicLoader {
+export class InMemoryDynamicLoader extends AbstractDynamicLoader {
   private readonly storage = new Map<string, Store>();
   private readonly loaders = new Map<string, Promise<PackageContent>>();
 

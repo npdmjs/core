@@ -1,10 +1,10 @@
 {
   "name": "@npmdm/core",
   "version": "0.0.1",
-  "type": "module",
   "author": "Aleksandr Kondratskii",
   "license": "MIT",
-
+  
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
   "types": "dist/cjs/index.d.ts",

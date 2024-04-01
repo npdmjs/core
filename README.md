@@ -1,1 +1,1 @@
-# core
+# @npmdm/core
