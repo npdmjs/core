@@ -68,4 +68,8 @@ describe('AbstractDynamicLoader', () => {
       .rejects
       .toThrow('Worker error');
   });
+
+  it('throws an error if registry URL is invalid', () => {
+    expect(() => new DynamicLoaderTest('invalid-url')).toThrow('Invalid registry URL');
+  });
 });

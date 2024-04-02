@@ -3,9 +3,17 @@ import { create as createMemFsEditor } from 'mem-fs-editor';
 import { AbstractDynamicLoader } from './AbstractDynamicLoader.js';
 import { PackageContent } from './PackageContent.js';
 
+type InMemoryDynamicLoaderOptions = {
+  registry?: string;
+};
+
 export class InMemoryDynamicLoader extends AbstractDynamicLoader {
   private readonly storage = new Map<string, Store>();
   private readonly loaders = new Map<string, Promise<PackageContent>>();
+
+  constructor(options: InMemoryDynamicLoaderOptions = {}) {
+    super(options.registry);
+  }
 
   public async getAsset(packageName: string, version: string, assetPath: string): Promise<Buffer | null> {
     const key = `${packageName}@${version}`;

@@ -35,7 +35,7 @@ describe('InMemoryDynamicLoader', () => {
       write: writeMock,
       commit: commitMock,
     } as any);
-    loader = new InMemoryDynamicLoader('REGISTRY_TEST');
+    loader = new InMemoryDynamicLoader({ registry: 'http://test-registry.com' });
     fetchSpy = vi.spyOn(loader as any, 'fetchPackageContent');
   });
 

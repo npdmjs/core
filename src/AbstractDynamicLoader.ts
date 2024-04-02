@@ -3,8 +3,14 @@ import type { PackageContent } from './PackageContent.js';
 
 export abstract class AbstractDynamicLoader {
   public constructor(
-    protected readonly registry: string,
-  ) {}
+    /** default https://registry.npmjs.org */
+    protected readonly registry = 'https://registry.npmjs.org',
+  ) {
+    const urlRegex = /^(https?:\/\/)?([\da-z\.-]+\.[a-z\.]{2,6}|[\d\.]+)([\/:?=&#]{1}[\da-z\.-]+)*[\/\?]?$/;
+    if (!urlRegex.test(this.registry)) {
+      throw new Error('Invalid registry URL');
+    }
+  }
 
   protected async fetchPackageContent(packageName: string, version: string): Promise<PackageContent> {
     return new Promise((resolve, reject) => {
