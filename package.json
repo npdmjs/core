@@ -1,9 +1,8 @@
 {
   "name": "@npmdm/core",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "Aleksandr Kondratskii",
   "license": "MIT",
-  
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -14,7 +13,6 @@
       "require": "./dist/cjs/index.js"
     }
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/npdmjs/core.git"
@@ -23,7 +21,6 @@
     "url": "https://github.com/npdmjs/core/issues"
   },
   "homepage": "https://github.com/npdmjs/core#readme",
-
   "scripts": {
     "test": "vitest run",
     "lint": "bun run lint:tsc && eslint src",
@@ -33,7 +30,6 @@
     "build:cjs": "tsc --project tsconfig.lib.cjs.json",
     "prepare": "husky"
   },
-
   "devDependencies": {
     "@commitlint/cli": "19.2.1",
     "@commitlint/config-conventional": "19.1.0",
@@ -53,15 +49,13 @@
     "typescript": "5.4.3",
     "vitest": "1.4.0"
   },
-
   "dependencies": {
     "mem-fs": "^4.1.0",
     "mem-fs-editor": "^11.0.0",
     "tar-stream": "^3.1.7"
   },
-
   "files": [
     "dist/cjs",
-    "dist/mjs"   
+    "dist/mjs"
   ]
 }
