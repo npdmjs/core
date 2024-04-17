@@ -1,4 +1,5 @@
 import { Worker } from 'node:worker_threads';
+import { join } from 'node:path';
 import type { PackageContent } from './PackageContent.js';
 
 export abstract class AbstractDynamicLoader {
@@ -15,7 +16,7 @@ export abstract class AbstractDynamicLoader {
   protected async fetchPackageContent(packageName: string, version: string): Promise<PackageContent> {
     return new Promise((resolve, reject) => {
       const packageUrl = `${this.registry}/${packageName}/${version}`;
-      const worker = new Worker('./loadPackageWorker.js', {
+      const worker = new Worker(join(__dirname, './loadPackageWorker.js'), {
         workerData: packageUrl,
       });
       worker.on('message', resolve);

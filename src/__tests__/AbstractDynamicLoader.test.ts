@@ -1,4 +1,5 @@
 import { Worker } from 'node:worker_threads';
+import { join } from 'node:path';
 import { AbstractDynamicLoader } from '../AbstractDynamicLoader.js';
 
 vi.mock('node:worker_threads', () => {
@@ -48,7 +49,8 @@ describe('AbstractDynamicLoader', () => {
     const result = await dynamicLoader.runFetch('example-package', '1.0.0');
 
     expect(result).toEqual(packageContentStub);
-    expect(Worker).toHaveBeenCalledWith('./loadPackageWorker.js', {
+    const expectedPath = join(__dirname, '../loadPackageWorker.js');
+    expect(Worker).toHaveBeenCalledWith(expectedPath, {
       workerData: 'http://example-registry.com/example-package/1.0.0',
     });
   });

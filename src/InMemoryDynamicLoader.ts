@@ -33,7 +33,7 @@ export class InMemoryDynamicLoader extends AbstractDynamicLoader {
       const packageContent = await loader;
 
       packageContent.forEach(
-        ({ path, content }) => fsEditor.write(path, content),
+        ({ path, content }) => fsEditor.write(path, Buffer.from(content)),
       );
 
       fsEditor.commit();

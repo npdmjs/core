@@ -18,6 +18,8 @@ type PackageDetails = { dist: { tarball: string } };
     .then((details: PackageDetails) => details.dist.tarball)
     .then(fetch)
     .then(data => data.arrayBuffer())
+    // gunzip expects a buffer
+    .then(buffer => Buffer.from(buffer))
     .then(gunzip);
 
   const packageContent: PackageContent = [];
