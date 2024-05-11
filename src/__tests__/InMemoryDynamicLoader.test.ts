@@ -35,7 +35,7 @@ describe('InMemoryDynamicLoader', () => {
       write: writeMock,
       commit: commitMock,
     } as any);
-    loader = new InMemoryDynamicLoader({ registry: 'http://test-registry.com' });
+    loader = new InMemoryDynamicLoader({ registry: 'http://test-registry.com', exclude: [{ name: 'restricted-pkg' }] });
     fetchSpy = vi.spyOn(loader as any, 'fetchPackageContent');
   });
 
@@ -63,7 +63,7 @@ describe('InMemoryDynamicLoader', () => {
   });
 
 
-  it ('returns value if it is already in memory', async () => {
+  it('returns value if it is already in memory', async () => {
     const fileContentStub = Buffer.from('console.log("test#2")');
     fetchSpy.mockResolvedValue([
       { path: 'index.js', content: fileContentStub },
@@ -81,7 +81,7 @@ describe('InMemoryDynamicLoader', () => {
   });
 
 
-  it ('awaits for a loader to finish if it is already in progress', async () => {
+  it('awaits for a loader to finish if it is already in progress', async () => {
     const indexJsStub = Buffer.from('console.log("index.js")');
     const mainJsStub = Buffer.from('console.log("main.js")');
     fetchSpy.mockResolvedValue([
@@ -101,5 +101,11 @@ describe('InMemoryDynamicLoader', () => {
     expect(getStoredValueMock).toHaveBeenCalledTimes(2); // return twice
     expect(results.includes(indexJsStub)).toBeTruthy();
     expect(results.includes(mainJsStub)).toBeTruthy();
+  });
+
+  it('throws an error if package is restricted', async () => {
+    await expect(loader.getAsset('restricted-pkg', '1.0.0', 'index.js'))
+      .rejects
+      .toThrow();
   });
 });

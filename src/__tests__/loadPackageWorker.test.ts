@@ -1,5 +1,5 @@
 import { parentPort } from 'node:worker_threads';
-import type { PackageContent } from '../PackageContent.js';
+import type { PackageContent } from '../types.js';
 import { tarballArrayBufferStub } from './packageStub.js';
 
 vi.mock('node:worker_threads', () => ({
