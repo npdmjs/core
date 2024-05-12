@@ -2,14 +2,28 @@ import { Store, create as createMemFs } from 'mem-fs';
 import { create as createMemFsEditor } from 'mem-fs-editor';
 import { AbstractDynamicLoader } from './AbstractDynamicLoader.js';
 import { RestrictedPackageError } from './RestrictedPackageError.js';
-import type { DynamicLoaderOptions, PackageContent } from './types.js';
+import type { InMemoryDynamicLoaderOptions, PackageContent } from './types.js';
+import { ExpirableMap } from './ExpirableMap.js';
+
+/**
+ * Option 1. External class which saves information about potentially created stores - bad,
+ * because it looks into the implementation details of the class
+ *
+ * Option 2. Add store self-expire implementation. Each package will have its own TTL (and timeout) CONVENIENT, but
+ * we cannot control the cleanup process from inside the store
+ */
 
 export class InMemoryDynamicLoader extends AbstractDynamicLoader {
-  private readonly storage = new Map<string, Store>();
+  private readonly storage: Map<string, Store>;
   private readonly loaders = new Map<string, Promise<PackageContent>>();
 
-  constructor(options: DynamicLoaderOptions = {}) {
+  constructor(options: InMemoryDynamicLoaderOptions = {}) {
     super(options);
+    if (options.ttl) {
+      this.storage = new ExpirableMap<string, Store>(options.ttl);
+    } else {
+      this.storage = new Map();
+    }
   }
 
   public async getAsset(packageName: string, version: string, assetPath: string): Promise<Buffer | null> {

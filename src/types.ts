@@ -15,6 +15,12 @@ export type DynamicLoaderOptions = {
   exclude?: PackageSpecifier[];
 };
 
+
+export type InMemoryDynamicLoaderOptions = DynamicLoaderOptions & {
+  /** Maximum time to keep package content in memory if unused, 0 or false disables cleanup */
+  ttl?: false | number;
+};
+
 export type PackageContent = {
   path: string,
   content: Uint8Array,

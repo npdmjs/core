@@ -2,6 +2,7 @@ import { InMemoryDynamicLoader } from '../InMemoryDynamicLoader.js';
 import { MockInstance } from 'vitest';
 import { create as createMemFs } from 'mem-fs';
 import { create as createMemFsEditor } from 'mem-fs-editor';
+import { ExpirableMap } from '../ExpirableMap.js';
 
 vi.mock('mem-fs', () => ({
   create: vi.fn(),
@@ -9,7 +10,7 @@ vi.mock('mem-fs', () => ({
 vi.mock('mem-fs-editor', () => ({
   create: vi.fn(),
 }));
-vi.mock('../DynamicLoader', () => ({
+vi.mock('../DynamicLoader.js', () => ({
   DynamicLoader: class {
     public fetchPackageContent = vi.fn();
   },
@@ -107,5 +108,12 @@ describe('InMemoryDynamicLoader', () => {
     await expect(loader.getAsset('restricted-pkg', '1.0.0', 'index.js'))
       .rejects
       .toThrow();
+  });
+
+  it('uses ExpirableMap if TTL is provided', () => {
+    const expirableMapHasSpy = vi.spyOn(ExpirableMap.prototype, 'has');
+    const loader = new InMemoryDynamicLoader({ ttl: 1000 });
+    loader.getAsset('ama', '1.0.0', 'index.js');
+    expect(expirableMapHasSpy).toHaveBeenCalledTimes(1);
   });
 });
