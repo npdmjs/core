@@ -4,7 +4,7 @@ export type PackageSpecifier = {
   version?: string | RegExp;
 };
 
-export type DynamicLoaderOptions = {
+export type PackageLoaderOptions = {
   /** Registry URL to fetch package content from. By default "https://registry.npmjs.org" */
   registry?: string;
 
@@ -16,7 +16,7 @@ export type DynamicLoaderOptions = {
 };
 
 
-export type InMemoryDynamicLoaderOptions = DynamicLoaderOptions & {
+export type InMemoryDynamicLoaderOptions = PackageLoaderOptions & {
   /** Maximum time to keep package content in memory if unused, 0 or false disables cleanup */
   ttl?: false | number;
 };

@@ -1,5 +1,5 @@
 export { InMemoryDynamicLoader } from './InMemoryDynamicLoader.js';
-export { AbstractDynamicLoader as DynamicLoader } from './AbstractDynamicLoader.js';
+export { PackageLoader } from './PackageLoader.js';
 export { RestrictedPackageError } from './RestrictedPackageError.js';
 
-export type { PackageContent, DynamicLoaderOptions, PackageSpecifier } from './types.js';
+export type { PackageContent, PackageLoaderOptions, PackageSpecifier } from './types.js';

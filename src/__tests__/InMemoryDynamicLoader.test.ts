@@ -1,8 +1,8 @@
 import { InMemoryDynamicLoader } from '../InMemoryDynamicLoader.js';
-import { MockInstance } from 'vitest';
 import { create as createMemFs } from 'mem-fs';
 import { create as createMemFsEditor } from 'mem-fs-editor';
 import { ExpirableMap } from '../ExpirableMap.js';
+import { PackageLoader } from '../PackageLoader.js';
 
 vi.mock('mem-fs', () => ({
   create: vi.fn(),
@@ -10,11 +10,13 @@ vi.mock('mem-fs', () => ({
 vi.mock('mem-fs-editor', () => ({
   create: vi.fn(),
 }));
-vi.mock('../DynamicLoader.js', () => ({
-  DynamicLoader: class {
-    public fetchPackageContent = vi.fn();
-  },
-}));
+vi.mock('../PackageLoader.js', () => {
+  const PackageLoaderMock = class {};
+  (PackageLoaderMock.prototype as any).fetchPackageContent = vi.fn();
+  return { PackageLoader: PackageLoaderMock };
+});
+
+const fetchPackageContentMock = vi.mocked(PackageLoader.prototype.fetchPackageContent);
 
 
 describe('InMemoryDynamicLoader', () => {
@@ -25,8 +27,6 @@ describe('InMemoryDynamicLoader', () => {
   const commitMock = vi.fn();
 
   let loader: InMemoryDynamicLoader;
-  let fetchSpy: MockInstance;
-
 
   beforeEach(() => {
     createMemFsMock.mockReturnValue({
@@ -37,7 +37,7 @@ describe('InMemoryDynamicLoader', () => {
       commit: commitMock,
     } as any);
     loader = new InMemoryDynamicLoader({ registry: 'http://test-registry.com', exclude: [{ name: 'restricted-pkg' }] });
-    fetchSpy = vi.spyOn(loader as any, 'fetchPackageContent');
+    // fetchSpy = vi.spyOn(loader as any, 'fetchPackageContent');
   });
 
 
@@ -51,7 +51,7 @@ describe('InMemoryDynamicLoader', () => {
     getStoredValueMock.mockReturnValue({
       contents: fileContentStub,
     });
-    fetchSpy.mockResolvedValue([
+    fetchPackageContentMock.mockResolvedValue([
       { path: 'index.js', content: fileContentStub },
     ]);
 
@@ -66,7 +66,7 @@ describe('InMemoryDynamicLoader', () => {
 
   it('returns value if it is already in memory', async () => {
     const fileContentStub = Buffer.from('console.log("test#2")');
-    fetchSpy.mockResolvedValue([
+    fetchPackageContentMock.mockResolvedValue([
       { path: 'index.js', content: fileContentStub },
     ]);
     getStoredValueMock.mockReturnValue({
@@ -76,7 +76,7 @@ describe('InMemoryDynamicLoader', () => {
     await loader.getAsset('ama', '1.0.0', 'index.js');
     const result = await loader.getAsset('ama', '1.0.0', 'index.js');
 
-    expect(fetchSpy).toHaveBeenCalledTimes(1); // load once
+    expect(fetchPackageContentMock).toHaveBeenCalledTimes(1); // load once
     expect(getStoredValueMock).toHaveBeenCalledTimes(2); // return twice
     expect(result).toEqual(fileContentStub); // same result
   });
@@ -85,7 +85,7 @@ describe('InMemoryDynamicLoader', () => {
   it('awaits for a loader to finish if it is already in progress', async () => {
     const indexJsStub = Buffer.from('console.log("index.js")');
     const mainJsStub = Buffer.from('console.log("main.js")');
-    fetchSpy.mockResolvedValue([
+    fetchPackageContentMock.mockResolvedValue([
       { path: 'index.js', content: indexJsStub },
       { path: 'main.js', content: mainJsStub },
     ]);
@@ -98,7 +98,7 @@ describe('InMemoryDynamicLoader', () => {
 
     const results = await Promise.all([firstPromise, secondPromise]);
 
-    expect(fetchSpy).toHaveBeenCalledTimes(1); // load once
+    expect(fetchPackageContentMock).toHaveBeenCalledTimes(1); // load once
     expect(getStoredValueMock).toHaveBeenCalledTimes(2); // return twice
     expect(results.includes(indexJsStub)).toBeTruthy();
     expect(results.includes(mainJsStub)).toBeTruthy();
@@ -110,10 +110,18 @@ describe('InMemoryDynamicLoader', () => {
       .toThrow();
   });
 
-  it('uses ExpirableMap if TTL is provided', () => {
+  it('uses ExpirableMap if TTL is provided', async () => {
+    const contentsStub = Buffer.from('console.log("Hello World!")');
     const expirableMapHasSpy = vi.spyOn(ExpirableMap.prototype, 'has');
+    const expirableMapGetSpy = vi.spyOn(ExpirableMap.prototype, 'get');
+    expirableMapHasSpy.mockReturnValue(true);
+    expirableMapGetSpy.mockReturnValue({
+      get: vi.fn().mockReturnValue({
+        contents: contentsStub,
+      }),
+    });
     const loader = new InMemoryDynamicLoader({ ttl: 1000 });
-    loader.getAsset('ama', '1.0.0', 'index.js');
-    expect(expirableMapHasSpy).toHaveBeenCalledTimes(1);
+    const actualContent = await loader.getAsset('ama', '1.0.0', 'index.js');
+    expect(actualContent).toBe(contentsStub);
   });
 });
