@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0](https://github.com/npdmjs/core/compare/v1.0.1...v2.0.0) (2024-05-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* DynamicLoader class is not available anymore, concrete PackageLoader should be used instead
+
+### Features
+
+* **dynamicloader:** add include and exclude options to manage allowed packages ([92d1719](https://github.com/npdmjs/core/commit/92d17194b60865db74c4414ebdb3ecf3806d3057))
+* **inmemorydynamicloader:** add time-to-live (ttl) option for automatic memory cleanup ([31a353c](https://github.com/npdmjs/core/commit/31a353c0ea639b7e9f0bfe742dcfe591f9782851))
+
+
+### Code Refactoring
+
+* move package loading logic into a separate PackageLoader class ([1a60920](https://github.com/npdmjs/core/commit/1a6092069b9cf5959973fa158e8d4120ae05b964))
+
 ## [1.0.1](https://github.com/npdmjs/core/compare/v1.0.0...v1.0.1) (2024-04-17)
 
 
