@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/npdmjs/core/compare/v2.0.0...v2.1.0) (2024-05-18)
+
+
+### Features
+
+* expose InMemoryDynamicLoaderOptions type ([11491ee](https://github.com/npdmjs/core/commit/11491eefd8db0f5421f5ae2d35debdbaa2f4955b))
+
 ## [2.0.0](https://github.com/npdmjs/core/compare/v1.0.1...v2.0.0) (2024-05-13)
 
 
