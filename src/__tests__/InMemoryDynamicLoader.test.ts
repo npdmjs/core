@@ -59,7 +59,7 @@ describe('InMemoryDynamicLoader', () => {
 
     expect(writeMock).toHaveBeenCalledWith('index.js', fileContentStub);
     expect(writeMock).toHaveBeenCalledTimes(1);
-    expect(commitMock).toHaveBeenCalledTimes(1);
+    expect(commitMock).not.toBeCalled();
     expect(result).toEqual(fileContentStub);
   });
 

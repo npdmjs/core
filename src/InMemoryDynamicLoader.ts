@@ -64,7 +64,6 @@ export class InMemoryDynamicLoader {
         ({ path, content }) => fsEditor.write(path, Buffer.from(content)),
       );
 
-      fsEditor.commit();
       this.pkgCache.set(key, store);
       this.pkgContentFetchPromises.delete(key);
     }
