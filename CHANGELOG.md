@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/npdmjs/core/compare/v2.1.1...v2.1.2) (2024-05-18)
+
+
+### Bug Fixes
+
+* **packageloader:** resolve issue with __dirname variable in ES modules ([5f00ce9](https://github.com/npdmjs/core/commit/5f00ce9179c41e50fb79ae28f6b00530f197401a))
+
 ## [2.1.1](https://github.com/npdmjs/core/compare/v2.1.0...v2.1.1) (2024-05-18)
 
 
