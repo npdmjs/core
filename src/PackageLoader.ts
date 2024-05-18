@@ -1,8 +1,13 @@
 import { Worker } from 'node:worker_threads';
-import { join } from 'node:path';
+import { fileURLToPath } from 'url';
+import { join, dirname } from 'node:path';
 import { PackageMatcher } from './PackageMatcher.js';
 import { RestrictedPackageError } from './RestrictedPackageError.js';
 import type { PackageContent, PackageLoaderOptions } from './types.js';
+
+// eslint-disable-next-line
+// @ts-ignore
+const currentDirectory = typeof __dirname !== 'undefined'? __dirname : dirname(fileURLToPath(import.meta?.url));
 
 /**
  * Manages the loading of package contents from a registry.
@@ -40,7 +45,7 @@ export class PackageLoader {
 
     return new Promise((resolve, reject) => {
       const packageUrl = `${this.options.registry}/${packageName}/${version}`;
-      const worker = new Worker(join(__dirname, './loadPackageWorker.js'), {
+      const worker = new Worker(join(currentDirectory, './loadPackageWorker.js'), {
         workerData: packageUrl,
       });
       worker.on('message', resolve);
