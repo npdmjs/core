@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/npdmjs/core/compare/v2.1.0...v2.1.1) (2024-05-18)
+
+
+### Bug Fixes
+
+* **inmemorydynamicloader:** disable writing files to the filesystem ([5343e8d](https://github.com/npdmjs/core/commit/5343e8deabdc7f34390f3315de34e6c26c4b2702))
+
 ## [2.1.0](https://github.com/npdmjs/core/compare/v2.0.0...v2.1.0) (2024-05-18)
 
 
