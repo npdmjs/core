@@ -4,6 +4,7 @@ import { join, dirname } from 'node:path';
 import { PackageMatcher } from './PackageMatcher.js';
 import { RestrictedPackageError } from './RestrictedPackageError.js';
 import type { PackageContent, PackageLoaderOptions } from './types.js';
+import { getIsValidUrl } from './getIsValidUrl.js';
 
 // eslint-disable-next-line
 // @ts-ignore
@@ -21,8 +22,7 @@ export class PackageLoader {
     options: PackageLoaderOptions = {},
   ) {
     if (options.registry) {
-      const urlRegex = /^(https?:\/\/)?([\da-z.-]+\.[a-z.]{2,6}|[\d.]+)([/:?=&#]{1}[\da-z.-]+)*[/?]?$/;
-      if (!urlRegex.test(options.registry)) {
+      if (!getIsValidUrl(options.registry)) {
         throw new Error('Invalid registry URL');
       }
     } else {
