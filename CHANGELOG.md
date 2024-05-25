@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/npdmjs/core/compare/v2.1.2...v2.1.3) (2024-05-25)
+
+
+### Bug Fixes
+
+* **packageloader:** allow using localhost as a artifactory URL ([7a04270](https://github.com/npdmjs/core/commit/7a04270747f043c6c9c9a5170582b1cd2b203140))
+
 ## [2.1.2](https://github.com/npdmjs/core/compare/v2.1.1...v2.1.2) (2024-05-18)
 
 
